@@ -964,13 +964,8 @@ function filterProduk() {
      tampilkanAlert("✅ Pesanan Berhasil Dikirim!");
      tutupForm();
      
-     const teksWa = `Halo Admin, saya mau pesan:
-
-Nama Produk: ${pesanan.produk}
-Harga: ${pesanan.harga}
-Nama: ${nama}
-No WA: ${wa}
-Keterangan: ${ket || "-"}`;
+     const teksWa = `Halo Admin, saya mau pesan:\n\nNama Produk: ${pesanan.produk}\nHarga: ${pesanan.harga}\nNama: ${nama}\nNo WA: ${wa}\nKeterangan: ${ket || "-"}`;
+     setTimeout(() => {
        window.open(`https://wa.me/${WA_ADMIN}?text=${encodeURIComponent(teksWa)}`, '_blank');
      }, 800);
      
