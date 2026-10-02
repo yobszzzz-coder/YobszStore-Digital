@@ -9,6 +9,77 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+
+/* === LAYAR LOADING === */
+.layar-loading {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #2a2a2a, #3a3a3a, #2a2a2a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.layar-loading.sembunyi {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.bungkus-loading {
+  text-align: center;
+}
+
+.kotak-loading {
+  background: #383838;
+  border: 3px solid #000;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.3);
+  width: 280px;
+  margin: 0 auto;
+}
+
+.baris-loading {
+  height: 14px;
+  background: #484848;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.baris-loading:last-child { margin-bottom: 0; }
+
+/* Lebar masing-masing baris */
+.baris-loading.p-100 { width: 100%; }
+.baris-loading.p-90  { width: 90%;  }
+.baris-loading.p-80  { width: 80%;  }
+.baris-loading.p-70  { width: 70%;  }
+.baris-loading.p-50  { width: 50%;  }
+
+/* Bayangan putih yang bergerak */
+.baris-loading::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  animation: geserBayangan 1.2s infinite linear;
+}
+
+@keyframes geserBayangan {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%);  }
+}
+
+.teks-loading {
+  margin-top: 20px;
+  color: #ccc;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+  
+  
 :root {
   --abu-gelap: #2a2a2a;
   --abu-tengah: #444444;
@@ -451,6 +522,21 @@ body {
 </head>
 <body>
 
+<!-- LAYAR LOADING SAAT AWAL MASUK -->
+<div class="layar-loading" id="layarLoading">
+  <div class="bungkus-loading">
+    <div class="kotak-loading">
+      <div class="baris-loading p-100"></div>
+      <div class="baris-loading p-70"></div>
+      <div class="baris-loading p-90"></div>
+      <div class="baris-loading p-50"></div>
+      <div class="baris-loading p-80"></div>
+    </div>
+    <p class="teks-loading">Memuat Produk...</p>
+  </div>
+</div>
+  
+  
 <!-- Atas Bar -->
 <div class="atas-bar">
   <div class="profil">
@@ -1024,8 +1110,16 @@ function tampilkanAlert(pesan, merah = false) {
   
   setTimeout(() => kotak.classList.remove('muncul'), 3000);
 }
-</script>
 
+// === HILANGKAN LOADING SETELAH HALAMAN SIAP ===
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    document.getElementById('layarLoading').classList.add('sembunyi');
+  }, 2000); // bisa ubah durasi tampil loading (ms)
+});
+   
+   
+</script>
 </body>
 </html>
 
