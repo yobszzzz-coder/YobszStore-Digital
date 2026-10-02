@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOBSZ STORE — Store Digital</title>
+<!-- Font Montserrat -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --abu-gelap: #2a2a2a;
+  --abu-tengah: #444444;
+  --abu-terang: #e5e5e5;
+  --putih: #ffffff;
+  --hitam: #000000;
+  --biru: #3b82f6;
+  --hijau: #22c55e;
+  --kuning: #facc15;
+  --merah: #ef4444;
+  --ungu: #8b5cf6;
+  --shadow: 4px 4px 0 rgba(0,0,0,0.9);
+  --shadow-kecil: 2px 2px 0 rgba(0,0,0,0.9);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body {
+  background: linear-gradient(135deg, #3a3a3a, #505050, #3a3a3a);
+  min-height: 100vh;
+  color: var(--putih);
+  padding-bottom: 90px;
+}
+
+/* Proteksi gambar kecuali QRIS */
+img { pointer-events: none; }
+img.qris-img { pointer-events: auto; }
+
+/* === ATAS: Profil & Kontak === */
+.atas-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  position: sticky;
+  top: 0;
+  background: rgba(42,42,42,0.95);
+  backdrop-filter: blur(10px);
+  z-index: 90;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+
+.profil {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.foto-profil {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 3px solid var(--putih);
+  object-fit: cover;
+}
+.nama-toko {
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.btn-kontak {
+  background: var(--hijau);
+  color: #000;
+  border: 3px solid #000;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-kecil);
+  transition: transform 0.1s;
+  text-decoration: none;
+  font-size: 13px;
+}
+.btn-kontak:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* Banner 16:9 */
+.banner-wrapper {
+  padding: 10px 20px;
+}
+.banner {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  border: 3px solid #000;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Pencarian */
+.cari-wrapper {
+  padding: 15px 20px;
+}
+.cari-input {
+  width: 100%;
+  padding: 12px 18px;
+  border: 3px solid #000;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  box-shadow: var(--shadow-kecil);
+}
+.cari-input::placeholder { color: #aaa; }
+
+/* Konten Halaman */
+.konten {
+  padding: 0 20px 30px;
+  display: none;
+}
+.konten.aktif { display: block; }
+
+.konten h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(255,255,255,0.15);
+}
+
+/* Kategori */
+.kotak-kategori {
+  background: rgba(255,255,255,0.08);
+  border: 3px solid #000;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+.kotak-kategori:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+.nama-kategori {
+  font-size: 17px;
+  font-weight: 800;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.jumlah-produk {
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--ungu);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.daftar-produk {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease-out;
+  margin-top: 0;
+}
+.daftar-produk.buka {
+  max-height: 5000px;
+  margin-top: 15px;
+}
+
+/* Produk */
+.item-produk {
+  background: rgba(255,255,255,0.05);
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.nama-produk {
+  font-weight: 700;
+  font-size: 14px;
+  flex: 1;
+  min-width: 180px;
+}
+.harga-produk {
+  font-weight: 900;
+  font-size: 15px;
+  color: var(--kuning);
+}
+.btn-pesan {
+  background: var(--hijau);
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: var(--shadow-kecil);
+  transition: transform 0.1s;
+}
+.btn-pesan:active { transform: translate(2px, 2px); box-shadow: none; }
+
+/* QRIS Bagian Bawah */
+.qris-bawah {
+  margin-top: 30px;
+  text-align: center;
+  background: rgba(255,255,255,0.08);
+  border: 3px solid #000;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+.qris-bawah img {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  border: 3px solid #000;
+  margin: 10px 0;
+}
+
+/* Navigasi Bawah */
+.nav-bawah {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background: rgba(42,42,42,0.98);
+  border-top: 3px solid #000;
+  z-index: 100;
+  box-shadow: 0 -4px 0 rgba(0,0,0,0.2);
+}
+.nav-btn {
+  flex: 1;
+  padding: 14px 8px;
+  text-align: center;
+  border: none;
+  background: transparent;
+  color: #aaa;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.nav-btn.aktif {
+  color: #fff;
+  background: rgba(139,92,246,0.25);
+  border-top: 3px solid var(--ungu);
+}
+
+/* Popup Form & Alert */
+.latar-gelap {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+.latar-gelap.tampil { display: flex; }
+.popup {
+  background: #3a3a3a;
+  border: 3px solid #000;
+  border-radius: 14px;
+  padding: 25px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.4);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.popup h3 { text-align: center; margin-bottom: 20px; font-size: 18px; font-weight: 800; }
+.tutup {
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 900;
+  color: #888;
+  margin-top: -5px;
+}
+.tutup:hover { color: #fff; }
+.popup label {
+  display: block;
+  margin: 12px 0 5px;
+  font-weight: 700;
+  font-size: 13px;
+}
+.popup input, .popup textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #000;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  font-family: 'Montserrat', sans-serif;
+}
+.popup input:disabled { background: rgba(0,0,0,0.3); color: #ccc; }
+.popup button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 18px;
+  background: var(--hijau);
+  color: #000;
+  border: 3px solid #000;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  font-family: 'Montserrat', sans-serif;
+}
+.popup button:active { transform: translate(3px,3px); box-shadow: none; }
+.peringatan {
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(250,204,21,0.15);
+  border: 2px solid var(--kuning);
+  border-radius: 8px;
+  font-size: 12px;
+  text-align: center;
+  color: #fde047;
+  font-weight: 600;
+}
+
+/* Alert Buatan */
+.alert-kotak {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #22c55e;
+  color: #000;
+  padding: 12px 20px;
+  border: 3px solid #000;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  font-weight: 800;
+  z-index: 300;
+  transform: translateX(150%);
+  transition: transform 0.3s ease;
+}
+.alert-kotak.muncul { transform: translateX(0); }
+.alert-kotak.merah { background: #ef4444; color: #fff; }
+
+/* Riwayat */
+.riwayat-item {
+  background: rgba(255,255,255,0.05);
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 12px;
+}
+.riwayat-item p { margin: 4px 0; font-size: 13px; font-weight: 600; }
+.status-pending { color: #facc15; font-weight: 800; }
+.status-sukses { color: #22c55e; font-weight: 800; }
+.status-gagal { color: #ef4444; font-weight: 800; }
+
+/* Tautan Sosmed */
+.sosmed-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px;
+  margin: 10px 0;
+  border: 3px solid #000;
+  border-radius: 10px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: var(--shadow-kecil);
+  transition: transform 0.1s;
+}
+.sosmed-btn:active { transform: translate(2px,2px); box-shadow: none; }
+.sosmed-btn.tiktok { background: #000; color: #fff; }
+.sosmed-btn.wa { background: #22c55e; color: #000; }
+
+/* Loading */
+.memuat { text-align: center; padding: 30px; color: #888; font-weight: 600; }
+
+#bagianCari {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+#bagianCari[style*="display: none"] {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+/* Hilangkan garis biru saat diklik */
+* {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Semua tombol, kotak, link — tidak ada efek seleksi biru */
+button, 
+input, 
+a, 
+.kotak-kategori, 
+.btn-pesan, 
+.sosmed-btn, 
+.nav-btn {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Bikin gerakan lebih mulus */
+* {
+  transition: all 0.2s ease;
+}
+
+/* Saat ditekan tidak ada perubahan warna latar biru */
+button:active,
+a:active,
+.kotak-kategori:active {
+  background-color: inherit;
+}
+
+/* Tidak bisa diseleksi teksnya (opsional) */
+body {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Atas Bar -->
+<div class="atas-bar">
+  <div class="profil">
+    <img src="logo.jpg" alt="Foto Profil" class="foto-profil" onerror="this.src='https://via.placeholder.com/45'">
+    <span class="nama-toko">YOBSZ STORE</span>
+  </div>
+  <a href="https://wa.me/6281314347426" target="_blank" class="btn-kontak">💬 Hubungi WA</a>
+</div>
+
+<!-- Banner -->
+<div class="banner-wrapper">
+  <div class="banner">
+    <img src="banner.jpg" alt="Banner YOBSZ STORE" onerror="this.src='https://via.placeholder.com/800x450/3a3a3a/ffffff?text=YOBSZ+STORE'" loading="lazy">
+  </div>
+</div>
+
+<!-- Pencarian -->
+<div class="cari-wrapper" id="bagianCari">
+  <input type="text" class="cari-input" id="cariProduk" placeholder="🔍 Cari produk..." oninput="filterProduk()">
+</div>
+
+<!-- KONTEN: HOME -->
+<div class="konten aktif" id="kontenHome">
+  <h2>📦 Daftar Layanan</h2>
+
+  <!-- Kategori APK -->
+  <div class="kotak-kategori" onclick="toggleKategori('apk')">
+    <div class="nama-kategori">
+      📱 APK
+      <span class="jumlah-produk">42 Produk</span>
+    </div>
+    <div class="daftar-produk" id="daftarApk">
+      <div class="item-produk">
+        <span class="nama-produk">APK AUTO SAVE CONTACT</span>
+        <span class="harga-produk">Rp 5.000</span>
+        <button class="btn-pesan" data-nama="APK AUTO SAVE CONTACT" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK BANINDO ELITE</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK BANINDO ELITE" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK BANNED GMAIL</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK BANNED GMAIL" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK BANNED & UNBANNED NUMBER</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK BANNED & UNBANNED NUMBER" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK DANA FAKE</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK DANA FAKE" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK BEKU PAYMENT</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK BEKU PAYMENT" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK PUSH KONTAK</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK PUSH KONTAK" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK KENON</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK KENON" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK JPM</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK JPM" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK PIXELLAB LOGO</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK PIXELLAB LOGO" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK TEMP MAIL PREMIUM</span>
+        <span class="harga-produk">Rp 5.000</span>
+        <button class="btn-pesan" data-nama="APK TEMP MAIL PREMIUM" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK BANNED PRIVATE</span>
+        <span class="harga-produk">Rp 5.000</span>
+        <button class="btn-pesan" data-nama="APK BANNED PRIVATE" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK SUPORT WA</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK SUPORT WA" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK QRIS NO KTP</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK QRIS NO KTP" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK SAVE OTOMATIS</span>
+        <span class="harga-produk">Rp 5.000</span>
+        <button class="btn-pesan" data-nama="APK SAVE OTOMATIS" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK PUSH KONTAK Premium</span>
+        <span class="harga-produk">Rp 5.000</span>
+        <button class="btn-pesan" data-nama="APK PUSH KONTAK Premium" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK TEMP EMAIL PREMIUM</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK TEMP EMAIL PREMIUM" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK BUY NOKOS</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK BUY NOKOS" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK SNAKE 8BP PREMIUM</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK SNAKE 8BP PREMIUM" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK PIXELAB MOD JB</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK PIXELAB MOD JB" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK MB WA IOS</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK MB WA IOS" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK DANA NOTIF FAKE</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK DANA NOTIF FAKE" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK GOPAY NOTIF FAKE</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK GOPAY NOTIF FAKE" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK OVO NOTIF FAKE</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK OVO NOTIF FAKE" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK BANNED & UNBANNED</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK BANNED & UNBANNED" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK NONTON BIOSKOP GRATIS</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK NONTON BIOSKOP GRATIS" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK SERBA UNTUK JB</span>
+        <span class="harga-produk">Rp 5.000</span>
+        <button class="btn-pesan" data-nama="APK SERBA UNTUK JB" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK PS</span>
+        <span class="harga-produk">Rp 5.000</span>
+        <button class="btn-pesan" data-nama="APK PS" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK KEBUTUHAN JB</span>
+        <span class="harga-produk">Rp 5.000</span>
+        <button class="btn-pesan" data-nama="APK KEBUTUHAN JB" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK TOP UP GAME MURAH</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK TOP UP GAME MURAH" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK HD FOTO/VD</span>
+        <span class="harga-produk">Rp 3.000</span>
+        <button class="btn-pesan" data-nama="APK HD FOTO/VD" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK ROG</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK ROG" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK G-VORTEXT PREMIUM</span>
+        <span class="harga-produk">Rp 5.000</span>
+        <button class="btn-pesan" data-nama="APK G-VORTEXT PREMIUM" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK GCAM (UNTUK UP ORKUT)</span>
+        <span class="harga-produk">Rp 5.000</span>
+        <button class="btn-pesan" data-nama="APK GCAM" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+           <div class="item-produk">
+        <span class="nama-produk">APK PIXELLAB ARMY</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK PIXELLAB ARMY" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK PIXELLAB PURPLE</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK PIXELLAB PURPLE" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+      <div class="item-produk">
+        <span class="nama-produk">APK PIXELLAB RED</span>
+        <span class="harga-produk">Rp 4.000</span>
+        <button class="btn-pesan" data-nama="APK PIXELLAB RED" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+      </div>
+<div class="item-produk">
+         <span class="nama-produk">APK LOGO</span>
+         <span class="harga-produk">Rp 2.000</span>
+         <button class="btn-pesan" data-nama="APK LOGO" data-harga="2.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+       <div class="item-produk">
+         <span class="nama-produk">APK SAVE KONTAK OTOMATIS</span>
+         <span class="harga-produk">Rp 2.000</span>
+         <button class="btn-pesan" data-nama="APK SAVE KONTAK OTOMATIS" data-harga="2.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+     </div>
+   </div>
+   <!-- Kategori WEB -->
+   <div class="kotak-kategori" onclick="toggleKategori('web')">
+     <div class="nama-kategori">
+       🌐 WEB
+       <span class="jumlah-produk">6 Produk</span>
+     </div>
+     <div class="daftar-produk" id="daftarWeb">
+       <div class="item-produk">
+         <span class="nama-produk">WEB BUY NOKOS MURAH</span>
+         <span class="harga-produk">Rp 5.000</span>
+         <button class="btn-pesan" data-nama="WEB BUY NOKOS MURAH" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+       <div class="item-produk">
+         <span class="nama-produk">WEB CRATE NOKOS FREE</span>
+         <span class="harga-produk">Rp 7.000</span>
+         <button class="btn-pesan" data-nama="WEB CRATE NOKOS FREE" data-harga="7.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+       <div class="item-produk">
+         <span class="nama-produk">WEB NOKOS VVIP</span>
+         <span class="harga-produk">Rp 10.000</span>
+         <button class="btn-pesan" data-nama="APK NOKOS VVIP" data-harga="10.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+       <div class="item-produk">
+         <span class="nama-produk">WEB SUNTIK V1</span>
+         <span class="harga-produk">Rp 3.000</span>
+         <button class="btn-pesan" data-nama="WEB SUNTIK V1" data-harga="3.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+       <div class="item-produk">
+         <span class="nama-produk">WEB SUNTIK V2</span>
+         <span class="harga-produk">Rp 4.000</span>
+         <button class="btn-pesan" data-nama="WEB SUNTIK V2" data-harga="4.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+       <div class="item-produk">
+         <span class="nama-produk">WEB SUNTIK V3 / V4</span>
+         <span class="harga-produk">Rp 5.000</span>
+         <button class="btn-pesan" data-nama="WEB SUNTIK V3/V4" data-harga="5.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+     </div>
+   </div>
+   <!-- Kategori SCRIPT -->
+   <div class="kotak-kategori" onclick="toggleKategori('script')">
+     <div class="nama-kategori">
+       ⚡ SCRIPT
+       <span class="jumlah-produk">3 Produk</span>
+     </div>
+     <div class="daftar-produk" id="daftarScript">
+       <div class="item-produk">
+         <span class="nama-produk">SCRIPT BOT PUSHKONTAK X JPM</span>
+         <span class="harga-produk">Rp 12.000</span>
+         <button class="btn-pesan" data-nama="SCRIPT BOT PUSHKONTAK X JPM" data-harga="12.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+       <div class="item-produk">
+         <span class="nama-produk">SCRIPT BOT PUSHKONTAK X JAGA GRUB & JPM</span>
+         <span class="harga-produk">Rp 20.000</span>
+         <button class="btn-pesan" data-nama="SCRIPT BOT PUSHKONTAK X JAGA GRUB & JPM" data-harga="20.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+       <div class="item-produk">
+         <span class="nama-produk">SCRIPT CPANEL FULL BUTTON</span>
+         <span class="harga-produk">Rp 15.000</span>
+         <button class="btn-pesan" data-nama="SCRIPT CPANEL FULL BUTTON" data-harga="15.000" onclick="bukaForm(this)">Pesan</button>
+       </div>
+     </div>
+   </div>
+ <!-- QRIS di Bawah Produk -->
+   <div class="qris-bawah">
+     <h3>💳 Pembayaran</h3>
+     <img src="qris.jpg" alt="QRIS YOBSZ STORE" class="qris-img" onerror="this.src='https://via.placeholder.com/200'">
+     <p style="font-size:13px; color:#ccc; margin-top:8px;">Scan QRIS di atas untuk pembayaran</p>
+   </div>
+ </div>
+ <!-- KONTEN: QRIS -->
+ <div class="konten" id="kontenQris">
+   <h2>💳 QRIS Pembayaran</h2>
+   <div class="qris-bawah" style="max-width:320px; margin:30px auto;">
+     <img src="qris.jpg" alt="QRIS YOBSZ STORE" class="qris-img" style="width:240px; height:240px;" onerror="this.src='https://via.placeholder.com/240'">
+     <h3 style="margin-top:15px;">Cara Pembayaran</h3>
+     <ol style="text-align:left; margin-top:12px; font-size:14px; line-height:1.8;">
+       <li>Scan kode QRIS di atas</li>
+       <li>Masukkan nominal sesuai harga</li>
+       <li>Konfirmasi pembayaran</li>
+       <li>Kirim bukti bayar ke WhatsApp</li>
+       <li>Tunggu konfirmasi dari admin ✅</li>
+     </ol>
+     <a href="https://wa.me/6281314347426" target="_blank" class="sosmed-btn wa" style="margin-top:20px;">💬 Kirim Bukti ke WA</a>
+   </div>
+ </div>
+ <!-- KONTEN: TENTANG -->
+ <div class="konten" id="kontenTentang">
+   <h2>ℹ️ Tentang YOBSZ STORE</h2>
+   <div style="background:rgba(255,255,255,0.08); border:3px solid #000; border-radius:12px; padding:20px; box-shadow: var(--shadow);">
+     <p style="line-height:1.8; margin-bottom:15px;">
+       <strong>YOBSZ STORE</strong> adalah penyedia layanan digital terpercaya yang menyediakan berbagai macam APK Premium, Web Tools, dan Script Bot.
+     </p>
+     <p style="line-height:1.8; margin-bottom:20px;">
+       Kami selalu mengutamakan kualitas layanan dan kepuasan pelanggan. Semua produk yang kami jual sudah teruji dan siap pakai.
+     </p>
+     
+     <h3 style="margin:20px 0 10px; font-weight:800;">📱 Ikuti Kami</h3>
+     <a href="https://tiktok.com/@obel_123" target="_blank" class="sosmed-btn tiktok">🎵 TikTok — @yobsz</a>
+     <a href="https://whatsapp.com/channel/0029Vb939zUCxoB2F0wEg51X" target="_blank" class="sosmed-btn wa">📢 Saluran WhatsApp YOBSZ</a>
+     
+     <h3 style="margin:20px 0 10px; font-weight:800;">📞 Kontak Admin</h3>
+     <a href="https://wa.me/6281314347426" target="_blank" class="sosmed-btn wa">💬 +62 813-1434-7426</a>
+   </div>
+ </div>
+ <!-- KONTEN: RIWAYAT TRANSAKSI -->
+ <div class="konten" id="kontenRiwayat">
+   <h2>📋 Riwayat Transaksi</h2>
+   <div id="daftarRiwayat">
+     <p class="memuat">Memuat riwayat...</p>
+   </div>
+ </div>
+ <!-- FORM PESANAN POPUP -->
+ <div class="latar-gelap" id="formPopup">
+   <div class="popup">
+     <span class="tutup" onclick="tutupForm()">&times;</span>
+     <h3>📝 Form Pemesanan</h3>
+     
+     <label>Nama Produk</label>
+     <input type="text" id="fmProduk" disabled>
+     
+     <label>Harga</label>
+     <input type="text" id="fmHarga" disabled>
+     
+     <label>Nama Kamu *</label>
+     <input type="text" id="fmNama" placeholder="Masukkan nama kamu..." required>
+     
+     <label>Nomor WhatsApp *</label>
+     <input type="tel" id="fmWa" placeholder="Contoh: 0812xxxx" required>
+     
+     <label>Keterangan (Opsional)</label>
+     <textarea id="fmKet" rows="3" placeholder="Tulis catatan jika ada..."></textarea>
+     
+     <p class="peringatan">⚠️ Lakukan pembayaran lalu kirim bukti ke WhatsApp!</p>
+     
+     <button onclick="kirimPesanan()">✅ KIRIM PESANAN</button>
+   </div>
+ </div>
+ <!-- ALERT BUATAN -->
+ <div class="alert-kotak" id="alertBox"></div>
+ <!-- NAVIGASI BAWAH -->
+ <div class="nav-bawah">
+   <button class="nav-btn" data-target="kontenTentang">TENTANG</button>
+   <button class="nav-btn" data-target="kontenQris">QRIS</button>
+   <button class="nav-btn aktif" data-target="kontenHome">HOME</button>
+   <button class="nav-btn" data-target="kontenRiwayat">RIWAYAT</button>
+ </div>
+ <script>
+ // === PENGATURAN JSONBIN — GANTI DENGAN DATA KAMU ===
+ const BIN_ID = "6abf2e82ac6210605a0b2cfd";
+ const API_KEY = "$2a$10$CkgtgR7hS4OMppFtzF8S.eJ/qRM6tdjSrKeLwzsi9cwForo5kkWHu";
+ const WA_ADMIN = "6281314347426";
+ const URL_BIN = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+ // Data produk yang dipilih
+ let produkTerpilih = { nama: "", harga: "" };
+// === NAVIGASI ===
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('aktif'));
+    document.querySelectorAll('.konten').forEach(k => k.classList.remove('aktif'));
+    this.classList.add('aktif');
+    document.getElementById(this.dataset.target).classList.add('aktif');
+    
+    // Tampilkan pencarian HANYA di Home
+    const elCari = document.getElementById('bagianCari');
+    if (this.dataset.target === 'kontenHome') {
+      elCari.style.display = 'block';
+    } else {
+      elCari.style.display = 'none';
+    }
+    
+    if (this.dataset.target === 'kontenRiwayat') {
+      ambilRiwayat();
+    }
+  });
+});
+
+ // === BUKA/TUTUP KATEGORI ===
+ function toggleKategori(id) {
+   const el = document.getElementById('daftar' + id.charAt(0).toUpperCase() + id.slice(1));
+   el.classList.toggle('buka');
+ }
+// === PENCARIAN PRODUK ===
+function filterProduk() {
+  const kata = document.getElementById('cariProduk').value.toLowerCase();
+  const daftarItem = document.querySelectorAll('.item-produk');
+  let adaYangDitemukan = false;
+
+  daftarItem.forEach(item => {
+    const teks = item.querySelector('.nama-produk').textContent.toLowerCase();
+    if (teks.includes(kata)) {
+      item.style.display = 'flex';
+      adaYangDitemukan = true;
+    } else {
+      item.style.display = 'none';
+    }
+  });
+
+  // Taruh pesan tepat di bawah kotak pencarian
+  let pesanEl = document.getElementById('pesanTidakDitemukan');
+  if (!pesanEl) {
+    pesanEl = document.createElement('p');
+    pesanEl.id = 'pesanTidakDitemukan';
+    pesanEl.style.cssText = `
+      color: #ef4444;
+      font-weight: 700;
+      padding: 8px 20px 0;
+      margin: 0;
+    `;
+    // Masukkan tepat setelah pembungkus pencarian
+    document.getElementById('bagianCari').after(pesanEl);
+  }
+
+  if (kata && !adaYangDitemukan) {
+    pesanEl.textContent = '❌ Produk tidak ditemukan';
+    pesanEl.style.display = 'block';
+  } else {
+    pesanEl.style.display = 'none';
+  }
+}
+
+
+ // === BUKA FORM PESANAN ===
+ function bukaForm(btn) {
+   produkTerpilih.nama = btn.dataset.nama;
+   produkTerpilih.harga = btn.dataset.harga;
+   
+   document.getElementById('fmProduk').value = produkTerpilih.nama;
+   document.getElementById('fmHarga').value = "Rp " + produkTerpilih.harga;
+   document.getElementById('formPopup').classList.add('tampil');
+ }
+ function tutupForm() {
+   document.getElementById('formPopup').classList.remove('tampil');
+   document.getElementById('fmNama').value = "";
+   document.getElementById('fmWa').value = "";
+   document.getElementById('fmKet').value = "";
+ }
+ // === KIRIM PESANAN & SIMPAN KE JSONBIN ===
+ async function kirimPesanan() {
+   const nama = document.getElementById('fmNama').value.trim();
+   const wa = document.getElementById('fmWa').value.trim();
+   const ket = document.getElementById('fmKet').value.trim();
+   
+   if (!nama || !wa) {
+     tampilkanAlert("❌ Nama & Nomor WA wajib diisi!", true);
+     return;
+   }
+   
+   const sekarang = new Date();
+   const tgl = sekarang.toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' });
+   const jam = sekarang.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
+   
+   const pesanan = {
+     nama: nama,
+     produk: produkTerpilih.nama,
+     harga: "Rp " + produkTerpilih.harga,
+     wa: wa,
+     keterangan: ket || "-",
+     waktu: `${tgl} ${jam}`,
+     tanggal: sekarang.toISOString(),
+     status: "PENDING"
+   };
+   
+   try {
+     const resLama = await fetch(URL_BIN + "/latest", {
+       headers: { "X-Master-Key": API_KEY }
+     });
+     const dataLama = await resLama.json();
+     const daftar = dataLama.record.riwayat || [];
+     
+     daftar.unshift(pesanan);
+     
+     await fetch(URL_BIN, {
+       method: "PUT",
+       headers: {
+         "Content-Type": "application/json",
+         "X-Master-Key": API_KEY
+       },
+       body: JSON.stringify({ riwayat: daftar })
+     });
+     
+     tampilkanAlert("✅ Pesanan Berhasil Dikirim!");
+     tutupForm();
+     
+     const teksWa = `Halo Admin, saya mau pesan:\n\nNama Produk: ${pesanan.produk}\nHarga: ${pesanan.harga}\nNama: ${nama}\nNo WA: ${wa}\nKeterangan: ${ket || "-"}\n\nStatus: PENDING`;
+     setTimeout(() => {
+       window.open(`https://wa.me/${WA_ADMIN}?text=${encodeURIComponent(teksWa)}`, '_blank');
+     }, 800);
+     
+   } catch (err) {
+     console.error(err);
+     tampilkanAlert("❌ Gagal mengirim! Cek koneksi.", true);
+   }
+ }
+// === AMBIL RIWAYAT TRANSAKSI ===
+ async function ambilRiwayat() {
+   const el = document.getElementById('daftarRiwayat');
+   el.innerHTML = '<p class="memuat">Memuat riwayat...</p>';
+   
+   try {
+     const res = await fetch(URL_BIN + "/latest", {
+       headers: { "X-Master-Key": API_KEY }
+     });
+     const data = await res.json();
+     const riwayat = data.record.riwayat || [];
+     
+         if (riwayat.length === 0) {
+      el.innerHTML = '<p style="text-align:center; color:#888; padding:30px;">Belum ada riwayat transaksi</p>';
+      return;
+    }
+    
+    el.innerHTML = "";
+    riwayat.forEach(trx => {
+      let kelasStatus = "status-pending";
+      if (trx.status === "SUKSES") kelasStatus = "status-sukses";
+      if (trx.status === "GAGAL") kelasStatus = "status-gagal";
+      
+      el.innerHTML += `
+        <div class="riwayat-item">
+          <p><strong>Nama:</strong> ${trx.nama}</p>
+          <p><strong>Produk:</strong> ${trx.produk}</p>
+          <p><strong>Harga:</strong> ${trx.harga}</p>
+          <p><strong>Waktu Pesan:</strong> ${trx.waktu}</p>
+          <p><strong>Status:</strong> <span class="${kelasStatus}">${trx.status}</span></p>
+        </div>
+      `;
+    });
+    
+  } catch (err) {
+    console.error(err);
+    el.innerHTML = '<p style="text-align:center; color:#ef4444; padding:30px;">❌ Gagal memuat riwayat</p>';
+  }
+}
+
+// === TAMPILKAN ALERT BUATAN ===
+function tampilkanAlert(pesan, merah = false) {
+  const kotak = document.getElementById('alertBox');
+  kotak.textContent = pesan;
+  kotak.classList.add('muncul');
+  if (merah) kotak.classList.add('merah');
+  else kotak.classList.remove('merah');
+  
+  setTimeout(() => kotak.classList.remove('muncul'), 3000);
+}
+</script>
+
+</body>
+</html>
+
+ 
+        
