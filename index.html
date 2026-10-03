@@ -989,19 +989,30 @@ function filterProduk() {
 
 
 // === KONFIGURASI NTFY ===
-const NTFY_SALURAN = "yobsz_store_notif"; // Ganti nama saluran kamu
+const NTFY_SALURAN = "yobsz_store_notif"; // Ganti nama kamu
 
 function kirimNotifKeHP(pesan) {
+  const judul = "🛒 PESANAN BARU — YOBSZ STORE";
+  
   fetch(`https://ntfy.sh/${NTFY_SALURAN}`, {
     method: "POST",
     body: pesan,
     headers: {
-      "Title": "🛒 PESANAN BARU — YOBSZ STORE",
-      "Priority": "high"
+      "Title": judul,
+      "Priority": "high",
+      "Tags": "bell"
     }
-  }).catch(err => console.log("Notif terkirim", err));
+  })
+  .then(res => {
+    console.log("✅ Notif terkirim!", res);
+    alert("Notifikasi dikirim ke HP ✅"); // sementara untuk cek
+  })
+  .catch(err => {
+    console.log("❌ Gagal kirim:", err);
+    alert("Gagal kirim notif ❌");
+  });
 }
-   
+
 
    
  // === BUKA FORM PESANAN ===
@@ -1065,17 +1076,18 @@ function kirimNotifKeHP(pesan) {
      
      tampilkanAlert("✅ Pesanan Berhasil Dikirim!");
      tutupForm();
-       // === KIRIM NOTIFIKASI KE HP ===
-  const isiNotif = `
+    // === KIRIM NOTIFIKASI ===
+    const isiNotif = `
 Nama: ${nama}
 Produk: ${pesanan.produk}
 Harga: ${pesanan.harga}
 WA: ${wa}
 Keterangan: ${ket || "-"}
 Waktu: ${pesanan.waktu}
-  `.trim();
-  
-  kirimNotifKeHP(isiNotif);
+    `.trim();
+    
+    kirimNotifKeHP(isiNotif); // ← ini panggil fungsinya
+
    
      
      const teksWa = `Halo Admin, saya mau pesan:\n\nNama Produk: ${pesanan.produk}\nHarga: ${pesanan.harga}\nNama: ${nama}\nNo WA: ${wa}\nKeterangan: ${ket || "-"}`;
