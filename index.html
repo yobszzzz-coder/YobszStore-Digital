@@ -993,25 +993,29 @@ const NTFY_SALURAN = "yobsz_store_notif"; // Ganti nama kamu
 
 function kirimNotifKeHP(pesan) {
   const judul = "🛒 PESANAN BARU — YOBSZ STORE";
-  
-  fetch(`https://ntfy.sh/${NTFY_SALURAN}`, {
+  const url = `https://ntfy.sh/${NTFY_SALURAN}`;
+
+  // Pakai mode no-cors agar tidak diblokir
+  fetch(url, {
     method: "POST",
-    body: pesan,
+    body: `${judul}\n\n${pesan}`,
     headers: {
-      "Title": judul,
-      "Priority": "high",
-      "Tags": "bell"
-    }
+      "X-Title": judul,
+      "X-Priority": "high",
+      "X-Tags": "bell"
+    },
+    mode: "no-cors" // ← ini kunci agar tidak diblokir
   })
-  .then(res => {
-    console.log("✅ Notif terkirim!", res);
-    alert("Notifikasi dikirim ke HP ✅"); // sementara untuk cek
+  .then(() => {
+    console.log("✅ Notifikasi terkirim");
   })
   .catch(err => {
-    console.log("❌ Gagal kirim:", err);
-    alert("Gagal kirim notif ❌");
+    console.log("⚠️ Tidak bisa kirim notif:", err);
+    // Jangan tampilkan alert gagal, biarkan pesanan tetap masuk
   });
 }
+
+
 
 
    
