@@ -988,6 +988,22 @@ function filterProduk() {
 }
 
 
+// === KONFIGURASI NTFY ===
+const NTFY_SALURAN = "yobsz_store_notif"; // Ganti nama saluran kamu
+
+function kirimNotifKeHP(pesan) {
+  fetch(`https://ntfy.sh/${NTFY_SALURAN}`, {
+    method: "POST",
+    body: pesan,
+    headers: {
+      "Title": "🛒 PESANAN BARU — YOBSZ STORE",
+      "Priority": "high"
+    }
+  }).catch(err => console.log("Notif terkirim", err));
+}
+   
+
+   
  // === BUKA FORM PESANAN ===
  function bukaForm(btn) {
    produkTerpilih.nama = btn.dataset.nama;
@@ -1049,6 +1065,18 @@ function filterProduk() {
      
      tampilkanAlert("✅ Pesanan Berhasil Dikirim!");
      tutupForm();
+       // === KIRIM NOTIFIKASI KE HP ===
+  const isiNotif = `
+Nama: ${nama}
+Produk: ${pesanan.produk}
+Harga: ${pesanan.harga}
+WA: ${wa}
+Keterangan: ${ket || "-"}
+Waktu: ${pesanan.waktu}
+  `.trim();
+  
+  kirimNotifKeHP(isiNotif);
+   
      
      const teksWa = `Halo Admin, saya mau pesan:\n\nNama Produk: ${pesanan.produk}\nHarga: ${pesanan.harga}\nNama: ${nama}\nNo WA: ${wa}\nKeterangan: ${ket || "-"}`;
      setTimeout(() => {
