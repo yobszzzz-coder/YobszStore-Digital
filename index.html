@@ -518,6 +518,46 @@ body {
   -webkit-user-select: none;
 }
 
+  /*scrol*/
+.bungkus-scroll-produk {
+  max-height: 520px; /* Atur tinggi kotak */
+  overflow-y: auto;   /* Munculkan scroll kalau penuh */
+  overflow-x: hidden;
+  padding-right: 4px;
+}
+
+/* Gaya bilah scroll */
+.bungkus-scroll-produk::-webkit-scrollbar {
+  width: 5px;
+}
+.bungkus-scroll-produk::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 5px;
+}
+
+/* === KOTAK SCROLL TERPISAH TIAP KATEGORI === */
+.kotak-scroll-per-kategori {
+  max-height: 480px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 16px;
+  padding-right: 4px;
+}
+
+.kotak-scroll-per-kategori::-webkit-scrollbar {
+  width: 5px;
+}
+.kotak-scroll-per-kategori::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+}
+.kotak-scroll-per-kategori::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 10px;
+}
+.kotak-scroll-per-kategori::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
   
 </style>
 </head>
